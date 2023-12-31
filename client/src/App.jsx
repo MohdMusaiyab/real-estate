@@ -6,9 +6,11 @@ import Profile from "./pages/Profile";
 import About from "./pages/About";
 import Header from "./components/Header";
 import SignUp from "./pages/SignUp";
+import { Toaster } from 'react-hot-toast';
 const App = () => {
   return (
     <BrowserRouter>
+    <Toaster />
     <Header></Header>
       <Routes>
         <Route path="/" element={<Home></Home>}></Route>

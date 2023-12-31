@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import toast from "react-hot-toast";
+import toast, { Toaster } from 'react-hot-toast';
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -20,14 +20,14 @@ const SignUp = () => {
       });
       console.log(res?.data);
       if (res?.data?.success) {
-        toast.success
-        alert("Sign Up Successful");
+        toast.success("Sign Up Successful");
+        // alert("Sign Up Successful");
         setLoading(false);
         navigate("/sign-in");
 
       } else {
-        alert("User Already Exists");
         toast.error(res.data.message);
+        // alert("User Already Exists");
         setLoading(false);
       }
     } catch (error) {
