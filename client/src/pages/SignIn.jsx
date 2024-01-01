@@ -4,6 +4,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch , useSelector } from "react-redux";
 import { signInSuccess,signInFailure,signInStart ,signInComplete} from "../redux/user/userSlice";
+import OAuth from "../components/OAuth";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState(""); 
@@ -73,6 +74,7 @@ const SignIn = () => {
         <button className="bg-slate-800 text-white w-full p-2 mt-4 rounded hover:opacity-85 disabled:placeholder-opacity-80">
           {loading ? "Loading..." : "Sign In"}
         </button>
+        <OAuth></OAuth>
       </form>
       <div className="flex my-5">
         <p>Don't Have an Account..</p>

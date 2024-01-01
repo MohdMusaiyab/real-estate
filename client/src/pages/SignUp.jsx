@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from 'react-hot-toast';
+import OAuth from "../components/OAuth";
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -80,6 +81,7 @@ const SignUp = () => {
         <button className="bg-slate-800 text-white w-full p-2 mt-4 rounded hover:opacity-85 disabled:placeholder-opacity-80">
           {loading ? "Loading..." : "Sign Up"}
         </button>
+        <OAuth></OAuth>
       </form>
       <div className="flex my-5">
         <p>Already Have an Account..</p>
