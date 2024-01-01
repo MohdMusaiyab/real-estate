@@ -2,15 +2,20 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { useDispatch , useSelector } from "react-redux";
+import { signInSuccess,signInFailure,signInStart ,signInComplete} from "../redux/user/userSlice";
 const SignIn = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState(""); 
+  // const [loading, setLoading] = useState(false);
+  const{error,loading} = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-      setLoading(true);
+      // setLoading(true);
+      dispatch(signInStart());
       const res = await axios.post("/api/v1/auth/signin", {
         email,
         password,
@@ -18,20 +23,22 @@ const SignIn = () => {
       console.log(res?.data);
       if(res?.data?.success){
         toast.success("Sign In Successful");
-        setLoading(false);
+        // setLoading(false);
+        dispatch(signInSuccess(res?.data));
         navigate("/");
       }
       else{
+        dispatch(signInFailure(res?.data?.message));
         toast.error(res?.data?.message || "Sign In Failed");
-        setLoading(false);
       }
     }
     catch(error){
+      dispatch(signInFailure(error?.response?.data?.message));
       toast.error(error?.response?.data?.message || "Sign In Failed" );
-      setLoading(false);
+      // setLoading(false);
     }
     finally{
-      setLoading(false);
+      dispatch(signInComplete());
     }
   };
   return (
