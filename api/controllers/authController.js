@@ -103,7 +103,7 @@ export const googleController = async (req, res) => {
       });
       const cleanUser = { ...existingUser };
       delete cleanUser.password;
-      res.status(200).cookie("access-token", token, { httpOnly: true }).send({
+      res.status(200).cookie("access_token", token, { httpOnly: true }).send({
         success: true,
         status: "success",
         User: cleanUser,
@@ -126,7 +126,7 @@ export const googleController = async (req, res) => {
       });
       const cleanUser = { ...newUser.toObject() };
       delete cleanUser.password;
-      res.cookie("access-token", token, { httpOnly: true }).status(201).send({
+      res.cookie("access_token", token, { httpOnly: true }).status(201).send({
         success: true,
         status: "success",
         User: cleanUser,

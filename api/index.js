@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userRoute from "./routes/userRoute.js";
 import authRoute from "./routes/authRoute.js";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 dotenv.config();
 mongoose
   .connect(process.env.MONGO)
@@ -17,6 +18,8 @@ mongoose
 const app = express();
 app.use(morgan("dev"));
 
+// TO get the information from the cookie
+app.use(cookieParser());
 // Initially we are not allowed to send JSON data to our server
 // So we need to add this line
 app.use(express.json());
