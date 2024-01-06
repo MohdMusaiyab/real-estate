@@ -12,7 +12,7 @@ export const updateController = async (req, res) => {
         message: "You can only update your account",
       });
     }
-    if (req.body.password) {
+    if (req.body.password !='') {
       req.body.password = bcryptjs.hashSync(req.body.password, 10);
     }
     const updatedUser = await User.findByIdAndUpdate(

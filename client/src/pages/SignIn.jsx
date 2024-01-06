@@ -21,7 +21,7 @@ const SignIn = () => {
         email,
         password,
       });
-      console.log(res?.data);
+      // console.log(res?.data);
       if(res?.data?.success){
         toast.success("Sign In Successful");
         // setLoading(false);
