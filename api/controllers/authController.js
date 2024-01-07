@@ -107,7 +107,7 @@ export const googleController = async (req, res) => {
       res.status(200).cookie("access_token", token, { httpOnly: true }).send({
         success: true,
         status: "success",
-        User: cleanUser,
+        User: cleanUser._doc,
       });
     } else {
       // Now we dont have the user so we will be creating one with new password as the password is required
