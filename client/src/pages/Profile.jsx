@@ -1,6 +1,6 @@
 import React from "react";
 import { useRef, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   getDownloadURL,
   getStorage,
@@ -9,20 +9,24 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import axios from "axios";
-import  toast  from "react-hot-toast";
-import { updateUserStart,updateUserSuccess,updateUserFailure } from "../redux/user/userSlice";
-import {useDispatch} from "react-redux";
+import toast from "react-hot-toast";
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+} from "../redux/user/userSlice";
 const Profile = () => {
-  const dispatch = useDispatch();
   const fileRef = useRef(null);
-  const { currentUser,loading,error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { currentUser, loading } = useSelector((state) => state.user);
   const [filePercentage, setFilePercentage] = useState(0);
   const [file, setFile] = useState(undefined);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   // console.log(file);
-  console.log(filePercentage);
-  console.log(formData);
+  // console.log(filePercentage);
+  // console.log(formData);
+  // console.log(currentUser);
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
@@ -55,26 +59,32 @@ const Profile = () => {
   const handelChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-  const handleProfileUpdate = async(e) => {
+  const handleProfileUpdate = async (e) => {
     e.preventDefault();
-    try { 
+    try {
       dispatch(updateUserStart());
-      const res=await axios.post(`/api/v1/user/update/${currentUser?.User?._id}`, formData);
+      const res = await axios.post(
+        `/api/v1/user/update/${currentUser?.User?._id}`,
+        formData
+      );
+      // console.log("Update Res.data.User not right")
       // console.log(res?.data);
-      if(res?.data?.success){
-        dispatch(updateUserSuccess(res?.data));
+      if (res?.data?.success) {
         toast.success("Update Successful");
-      }else{
+        dispatch(updateUserSuccess(res?.data));
+        return;
+      } else {
         dispatch(updateUserFailure(res?.data?.message));
         toast.error(res?.data?.message || "Update Failed");
+        return;
       }
-
     } catch (err) {
       console.log(err);
       dispatch(updateUserFailure(err?.response?.data?.message));
       toast.error(err?.response?.data?.message || "Update Failed");
     }
   };
+  console.log(formData);
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md ">
       <h1 className="text-2xl font-bold mb-6 text-center">Profile</h1>
@@ -147,7 +157,7 @@ const Profile = () => {
           className="mt-6 bg-slate-700 text-white rounded-md px-4 py-2 hover:bg-slate-800 align-middle w-full"
           disabled={loading}
         >
-         { loading?'Loading....':'Update'}
+          {loading ? "Loading...." : "Update"}
         </button>
       </form>
       <div className="flex mt-2 justify-between ">

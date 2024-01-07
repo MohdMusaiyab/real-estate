@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch , useSelector } from "react-redux";
-import { signInSuccess,signInFailure,signInStart ,signInComplete} from "../redux/user/userSlice";
+import { signInSuccess,signInFailure,signInStart ,signInComplete} from "../redux/user/userSlice"
 import OAuth from "../components/OAuth";
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -21,7 +21,10 @@ const SignIn = () => {
         email,
         password,
       });
+      // console.log("Sign in Res.data")
       // console.log(res?.data);
+      // console.log("Sign in Res.data.User is defined")
+      // console.log(res?.data?.User);
       if(res?.data?.success){
         toast.success("Sign In Successful");
         // setLoading(false);

@@ -12,8 +12,9 @@ export const updateController = async (req, res) => {
         message: "You can only update your account",
       });
     }
-    if (req.body.password !='') {
+    if (req.body.password) {
       req.body.password = bcryptjs.hashSync(req.body.password, 10);
+
     }
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
@@ -27,16 +28,19 @@ export const updateController = async (req, res) => {
       },
       { new: true }
     );
+    // console.log(updatedUser._doc);
     const { password, ...rest } = updatedUser._doc;
+    // const rest={...updatedUser._doc};
+    // delete rest.password;
     return res.status(200).send({
       success: true,
       message: "User Updated Successfully",
-      user: rest,
+      User: rest,
     });
   } catch (error) {
     console.log(error);
     res.status(500).send({
-      sucess: false,
+      success: false,
       message: "Internal Server Error",
       error,
     });

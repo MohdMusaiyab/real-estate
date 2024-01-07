@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
+
 export const signupController = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
@@ -72,7 +73,7 @@ export const signInController = async (req, res) => {
     }
     //Authenticating User
     const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
+      expiresIn: "7d",
     });
     //Saving that in our cookie
     res.cookie("access_token", token, { httpOnly: true });
