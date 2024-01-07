@@ -142,3 +142,20 @@ export const googleController = async (req, res) => {
     });
   }
 };
+
+export const signOutController = async (req, res) => {
+  try {
+    res.clearCookie("access_token");
+    return res.status(200).send({
+      success:true,
+      message:"Logged Out Successfully"
+    })
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({
+      success: false,
+      status: "failed",
+      message: error.message,
+    });
+  }
+};

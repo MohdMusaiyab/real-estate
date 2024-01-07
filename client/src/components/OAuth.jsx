@@ -9,43 +9,43 @@ const OAuth = () => {
   const navigate = useNavigate();
   const handleClick = async () => {
     try {
-      // const provider = new GoogleAuthProvider();
-      // const auth = getAuth(app);
-
-      // const result = await signInWithPopup(auth, provider);
-
-      // console.log(result);
-      // const res = await axios.post("/api/v1/auth/google", {
-      //   name: result.user.displayName,
-      //   email: result.user.email,
-      //   photo: result.user.photoURL,
-      // });
-      // // console.log(res?.data?.User);
-      // //New lines added
-      // // const data=res?.data;
-      // dispatch(signInSuccess(res?.data));
-      // navigate("/");
-
-      // From GitHub
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
 
       const result = await signInWithPopup(auth, provider);
 
-      const res = await fetch('/api/v1/auth/google', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: result.user.displayName,
-          email: result.user.email,
-          photo: result.user.photoURL,
-        }),
+      console.log(result);
+      const res = await axios.post("/api/v1/auth/google", {
+        name: result.user.displayName,
+        email: result.user.email,
+        photo: result.user.photoURL,
       });
-      const data = await res.json();
-      dispatch(signInSuccess(data));
-      navigate('/');
+      // console.log(res?.data?.User);
+      //New lines added
+      // const data=res?.data;
+      dispatch(signInSuccess(res?.data));
+      navigate("/");
+
+      // From GitHub
+      // const provider = new GoogleAuthProvider();
+      // const auth = getAuth(app);
+
+      // const result = await signInWithPopup(auth, provider);
+
+      // const res = await fetch('/api/v1/auth/google', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     name: result.user.displayName,
+      //     email: result.user.email,
+      //     photo: result.user.photoURL,
+      //   }),
+      // });
+      // const data = await res.json();
+      // dispatch(signInSuccess(data));
+      // navigate('/');
     } catch (error) {
       console.log(error);
     }

@@ -17,6 +17,9 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  signOutUserStart,
+  signOutUserFailure,
+  signOutUserSuccess,
 } from "../redux/user/userSlice";
 const Profile = () => {
   const fileRef = useRef(null);
@@ -89,6 +92,7 @@ const Profile = () => {
   };
   const handleDeleteUser = async () => {
     try {
+      dispatch(deleteUserStart());
       const res = await axios.delete(
         `/api/v1/user/delete/${currentUser?.User?._id}`
       );
@@ -108,6 +112,26 @@ const Profile = () => {
     }
   };
   // console.log(formData);
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await axios.get("/api/v1/auth/signout");
+      if (res?.data?.success) {
+        dispatch(signOutUserSuccess(res?.data));
+        toast.success("Sign Out Successful");
+        // window.location.href="/";
+        return;
+      } else {
+        dispatch(signOutUserFailure(res?.data?.message));
+        toast.error(res?.data?.message || "Sign Out Failed");
+        return;
+      }
+    } catch (err) {
+      dispatch(signOutUserFailure(res?.data?.message));
+
+      console.log(err);
+    }
+  };
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md ">
       <h1 className="text-2xl font-bold mb-6 text-center">Profile</h1>
@@ -121,10 +145,7 @@ const Profile = () => {
             onChange={(e) => setFile(e.target.files[0])}
           />
           <img
-            src={
-              formData.avatar ||
-              currentUser?.User?.avatar 
-            }
+            src={formData.avatar || currentUser?.User?.avatar}
             alt="Profile"
             className="h-12 w-12 rounded-full mx-auto mb-4 cursor-pointer hover:opacity-75"
             onClick={() => fileRef.current.click()}
@@ -148,9 +169,7 @@ const Profile = () => {
             <label className="block text-gray-700">Username:</label>
             <input
               type="text"
-              defaultValue={
-                currentUser?.User?.username 
-              }
+              defaultValue={currentUser?.User?.username}
               id="username"
               className="border rounded-md px-3 py-2 w-full mx-auto "
               onChange={handelChange}
@@ -192,7 +211,9 @@ const Profile = () => {
         <span className="text-red-600" onClick={handleDeleteUser}>
           Delete Account
         </span>
-        <span className="text-red-600">Sign Out</span>
+        <span className="text-red-600" onClick={handleSignOut}>
+          Sign Out
+        </span>
       </div>
     </div>
   );
