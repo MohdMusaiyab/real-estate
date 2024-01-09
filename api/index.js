@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoute from "./routes/userRoute.js";
 import authRoute from "./routes/authRoute.js";
+import listingRoute from "./routes/listingRoute.js"
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 dotenv.config();
@@ -33,6 +34,9 @@ app.use("/api/v1/user", userRoute);
 
 // For sign Up and Authentication
 app.use("/api/v1/auth", authRoute);
+
+//listing router
+app.use('/api/v1/listing',listingRoute);
 
 //Making a Middleware for Error Handling
 // app.use((err, req, res, next) => {
