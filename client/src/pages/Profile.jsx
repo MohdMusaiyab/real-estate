@@ -34,6 +34,8 @@ const Profile = () => {
   // console.log(filePercentage);
   // console.log(formData);
   // console.log(currentUser);
+  //For listings
+  const [userListings, setUserListings] = useState([]);
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
@@ -113,6 +115,23 @@ const Profile = () => {
     }
   };
   // console.log(formData);
+  const handleUserListing = async () => {
+    try {
+      const res = await axios.get(
+        `/api/v1/user/listings/${currentUser?.User?._id}`
+      );
+      console.log(res?.data);
+      if (res?.data?.success) {
+        setUserListings(res?.data?.listings);
+        return;
+      } else {
+        toast.error("No Listings Found");
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
@@ -207,7 +226,10 @@ const Profile = () => {
         >
           {loading ? "Loading...." : "Update"}
         </button>
-        <Link to={'/create-listing'} className="mt-6 bg-green-700 text-white rounded-md px-4 py-2 hover:bg-green-800 align-middle w-full text-center" >
+        <Link
+          to={"/create-listing"}
+          className="mt-6 bg-green-700 text-white rounded-md px-4 py-2 hover:bg-green-800 align-middle w-full text-center"
+        >
           Create Listing
         </Link>
       </form>
@@ -219,6 +241,41 @@ const Profile = () => {
           Sign Out
         </span>
       </div>
+      <button
+        onClick={handleUserListing}
+        className="w-full text-green-700 font-semibold"
+      >
+        Show your Listings
+      </button>
+      {userListings && userListings.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <h1 className="text-center font-semibold mt-6 text-2xl">Your Listings</h1>
+          {userListings.map((listing) => (
+            <div
+              className="border rounded-lg p-3 flex justify-between items-center gap-4"
+              key={listing._id}
+            >
+              <Link to={`/listing/${listing._id}`}>
+                <img
+                  src={listing.imageUrls[0]}
+                  alt="Property Image"
+                  className="w-20 h-20 object-contain"
+                ></img>
+              </Link>
+              <Link
+                className="text-slate-600 font-semibold hover:underline truncate flex-1"
+                to={`/listing/${listing._id}`}
+              >
+                <p>{listing.name}</p>
+              </Link>
+              <div className="flex flex-col items-center">
+                <button className="text-red-700">Delete</button>
+                <button className="text-green-700">Update</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
