@@ -9,7 +9,9 @@ import { app } from "../firebase";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const CreateListing = () => {
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
   // For Storing these Files
   const [files, setFiles] = useState([]);
@@ -21,7 +23,7 @@ const CreateListing = () => {
     bedrooms: 1,
     bathrooms: 1,
     regularPrice: 200,
-    discountPrice: 200,
+    discountPrice: 0,
     offer: false,
     parking: false,
     furnished: false,
@@ -125,6 +127,16 @@ const CreateListing = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if (formData.imageUrls.length == 0) {
+        setFormError("Please Upload Images");
+        toast.error("Please Upload Images");
+        return;
+      }
+      if (+formData.regularPrice < +formData.discountPrice) {
+        setFormError("Discount Price cannot be greater than Regular Price");
+        toast.error("Discount Price cannot be greater than Regular Price");
+        return;
+      }
       setFormLoading(true);
       const res = await axios.post("/api/v1/listing/create", {
         ...formData,
@@ -134,6 +146,7 @@ const CreateListing = () => {
       // console.log(res?.data)
       if (res?.data?.success) {
         toast.success("Listing Created Successfully");
+        navigate(`/listing/${res?.data?.listing?._id}`);
       } else {
         toast.error("Listing Creation Failed");
         setFormError(res?.data?.message);
@@ -277,21 +290,24 @@ const CreateListing = () => {
                 <span className="text-xs">(Rs / month)</span>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                id="discountPrice"
-                min={1}
-                required
-                className="p-3 border border-gray-300 rounded-lg"
-                onChange={handleChange}
-                value={formData.discountPrice}
-              />
-              <div className="flex flex-col items-center">
-                <p>Discounted Price</p>
-                <span className="text-xs">(Rs / month)</span>
+            {formData.offer && (
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  id="discountPrice"
+                  min={1}
+                  required
+                  className="p-3 border border-gray-300 rounded-lg"
+                  onChange={handleChange}
+                  value={formData.discountPrice}
+                />
+
+                <div className="flex flex-col items-center">
+                  <p>Discounted Price</p>
+                  <span className="text-xs">(Rs / month)</span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         <div className="flex flex-col flex-1">
@@ -319,7 +335,10 @@ const CreateListing = () => {
               {uploadingImages ? "Uploading..." : "Upload Images"}
             </button>
           </div>
-          <button className="p-3 bg-slate-500 text-white rounded-lg uppercase disabled:opacity-80 gap-2">
+          <button
+            disabled={formLoading  || uploadingImages }
+            className="p-3 bg-slate-500 text-white rounded-lg uppercase disabled:opacity-80 gap-2"
+          >
             {formLoading ? "Creating Listing..." : "Create Listing"}
           </button>
           {formData.imageUrls.length > 0 ? (
