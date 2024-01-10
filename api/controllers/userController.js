@@ -1,5 +1,6 @@
 import bcryptjs from "bcryptjs";
 import User from "../models/userModel.js";
+import Listing from "../models/listingModel.js";
 // Controller Just for Testing Purpose
 export const testController = (req, res) => {
   res.send("Hello from testController");
@@ -61,7 +62,7 @@ export const deleteController = async (req, res) => {
         message: "User Not Found",
       });
     }
-    res.clearCookie('access_token');
+    res.clearCookie("access_token");
     res.status(200).send({
       success: true,
       message: "User Deleted Successfully",
@@ -72,6 +73,31 @@ export const deleteController = async (req, res) => {
       success: false,
       message: "Internal Server Error",
       error,
+    });
+  }
+};
+export const userListingController = async (req, res) => {
+  // Get the Listings of the User
+  if (req.user.id === req.params.id) {
+    try {
+      const listings = await Listing.find({ userRef: req.params.id });
+      return res.status(200).send({
+        success: true,
+        message: "Listings of the User",
+        listings,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({
+        success: false,
+        message: "Internal Server Error",
+        error,
+      });
+    }
+  } else {
+    return res.status(401).send({
+      success: false,
+      message: "You can only get your listings",
     });
   }
 };
