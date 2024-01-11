@@ -152,6 +152,22 @@ const Profile = () => {
       console.log(err);
     }
   };
+  const handleListing = async(id) => {
+    // cnsole.log("Delete Listing");
+    try {
+      const res = await axios.delete(`/api/v1/listing/delete/${id}`);
+      console.log(res?.data)
+      if (res?.data?.success) {
+        setUserListings(userListings.filter((listing) => listing._id !== id));
+        toast.success("Delete Successful");
+      }else{
+        toast.error(res?.data?.message || "Delete Failed");
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.response?.data?.message || "Delete Failed");
+    }
+  };
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-md shadow-md ">
       <h1 className="text-2xl font-bold mb-6 text-center">Profile</h1>
@@ -245,11 +261,13 @@ const Profile = () => {
         onClick={handleUserListing}
         className="w-full text-green-700 font-semibold"
       >
-        Show your Listings
+        View Your Listings
       </button>
       {userListings && userListings.length > 0 && (
         <div className="flex flex-col gap-4">
-          <h1 className="text-center font-semibold mt-6 text-2xl">Your Listings</h1>
+          <h1 className="text-center font-semibold mt-6 text-2xl">
+            Your Listings
+          </h1>
           {userListings.map((listing) => (
             <div
               className="border rounded-lg p-3 flex justify-between items-center gap-4"
@@ -269,7 +287,12 @@ const Profile = () => {
                 <p>{listing.name}</p>
               </Link>
               <div className="flex flex-col items-center">
-                <button className="text-red-700">Delete</button>
+                <button
+                  className="text-red-700"
+                  onClick={() => handleListing(listing._id)}
+                >
+                  Delete
+                </button>
                 <button className="text-green-700">Update</button>
               </div>
             </div>
