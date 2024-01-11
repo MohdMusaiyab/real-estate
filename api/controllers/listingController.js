@@ -46,3 +46,40 @@ export const deleteListingController = async (req, res) => {
     });
   }
 };
+export const updateListingController = async (req, res) => {
+  try {
+    const listing = await Listing.findById(req.params.id);
+
+    if (!listing) {
+      return res.status(404).send({
+        success: false,
+        message: "Listing Not Found",
+      });
+    }
+    if (req.user.id !== listing.userRef) {
+      return res.status(401).send({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+    const updatedListing = await Listing.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    return res.status(200).send({
+      success: true,
+      message: "Listing Updated Successfully",
+      updatedListing,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Internal Server Error",
+      statusCode: 500,
+    });
+  }
+};
