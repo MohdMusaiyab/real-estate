@@ -83,3 +83,29 @@ export const updateListingController = async (req, res) => {
     });
   }
 };
+
+export const getSingleListingController=async(req,res)=>{
+  try{
+    const listing=await Listing.findById(req.params.id);
+    if(!listing)
+    {
+      return res.status(404).send({
+        success:false,
+        message:"Listing Not Found"
+      })
+    }
+    return res.status(200).send({
+      success:true,
+      message:"Listing Found",
+      listing
+    })
+  }
+  catch(error)
+  {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+}
