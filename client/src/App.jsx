@@ -10,6 +10,7 @@ import CreateListing from "./pages/CreateListing";
 import { Toaster } from 'react-hot-toast';
 import PrivateRoute from "./components/PrivateRoute";
 import UpdateListing from "./pages/UpdateListing";
+import Listing from "./pages/Listing";
 const App = () => {
   return (
     <BrowserRouter>
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/sign-in" element={<SignIn></SignIn>}></Route>
         <Route path="/sign-up" element={<SignUp></SignUp>}></Route>
         <Route path="/about" element={<About></About>}></Route>
+        <Route path="/listing/:listingId" element={<Listing></Listing>}></Route>
         <Route element={<PrivateRoute></PrivateRoute>}>
         <Route path="/profile" element={<Profile></Profile>}></Route>
         <Route path="/create-listing" element={<CreateListing></CreateListing>}></Route>

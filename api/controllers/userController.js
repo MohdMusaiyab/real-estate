@@ -101,3 +101,28 @@ export const userListingController = async (req, res) => {
     });
   }
 };
+
+export const getUserController = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "User Not Found",
+      });
+    }
+    const { password: pass, ...rest } = user._doc;
+    return res.status(200).send({
+      success: true,
+      message: "User Details",
+      user: rest,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Internal Server Error",
+      error,
+    });
+  }
+};
