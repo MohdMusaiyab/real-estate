@@ -38,6 +38,8 @@ app.use("/api/v1/auth", authRoute);
 //listing router
 app.use('/api/v1/listing',listingRoute);
 
+// app.get("/get",searchListingController)
+
 //Making a Middleware for Error Handling
 // app.use((err, req, res, next) => {
 //   const statusCode = err.statusCode || 500;
