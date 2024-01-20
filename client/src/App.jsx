@@ -11,6 +11,7 @@ import { Toaster } from 'react-hot-toast';
 import PrivateRoute from "./components/PrivateRoute";
 import UpdateListing from "./pages/UpdateListing";
 import Listing from "./pages/Listing";
+import Search from "./pages/Search";
 const App = () => {
   return (
     <BrowserRouter>
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/create-listing" element={<CreateListing></CreateListing>}></Route>
         <Route path="/update-listing/:listingId" element={<UpdateListing></UpdateListing>}></Route>  
         </Route>
+        <Route path="/search" element={<Search></Search>}></Route>
       </Routes>
     </BrowserRouter>
   );
