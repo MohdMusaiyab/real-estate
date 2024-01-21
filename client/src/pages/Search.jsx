@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ListingCard from "../components/ListingCard";
 const Search = () => {
   const navigate = useNavigate();
   const [sidebardata, setSidebardata] = useState({
@@ -12,8 +13,8 @@ const Search = () => {
     sort: "created_at",
     order: "desc",
   });
-  const[loading,setLoading]=useState(false);
-  const[listings,setListings]=useState([]);
+  const [loading, setLoading] = useState(false);
+  const [listings, setListings] = useState([]);
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
@@ -43,12 +44,13 @@ const Search = () => {
         order: orderFromUrl || "desc",
       });
     }
-    const fetchListings=async()=>{
-        setLoading(true);
-        const searchQuery=urlParams.toString();
-        const res=await axios.get(`/api/v1/listing/get?${searchQuery}`);
-        setListings(res?.data?.listings);
-    }
+    const fetchListings = async () => {
+      setLoading(true);
+      const searchQuery = urlParams.toString();
+      const res = await axios.get(`/api/v1/listing/get?${searchQuery}`);
+      setListings(res?.data?.listings);
+      setLoading(false);
+    };
     fetchListings();
   }, [location.search]);
   const handleChange = (e) => {
@@ -197,10 +199,19 @@ const Search = () => {
           </button>
         </form>
       </div>
-      <div className="">
+      <div className="flex-1">
         <h1 className="text-3xl font-semibold p-3 border-b mt-4">
           Listing Results
         </h1>
+        <div className="p-7 flex flex-wrap gap-4">
+          {!loading && listings.length === 0 && <p>No Listings Found</p>}
+          {loading && <p className="text-center w-full">Loading...</p>}
+          {!loading &&
+            listings.length > 0 &&
+            listings.map((listing) => (
+              <ListingCard key={listing._id} listing={listing} />
+            ))}
+        </div>
       </div>
     </div>
   );

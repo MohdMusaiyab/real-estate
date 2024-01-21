@@ -102,7 +102,7 @@ const Listing = () => {
               </p>
               {formData.offer && (
                 <p className="bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                  ${+formData.regularPrice - +formData.discountPrice}
+                  ${+formData.regularPrice - +formData.discountPrice} OFF
                 </p>
               )}
             </div>
@@ -142,7 +142,7 @@ const Listing = () => {
                   Contact Landlord
                 </button>
               )}
-            {contact && <Contact listing={formData}/>}
+            {contact && <Contact listing={formData} />}
           </div>
         </div>
       )}
