@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ListingCard from "../components/ListingCard";
 const Search = () => {
+  const [showMore, setShowMore] = useState(false);
   const navigate = useNavigate();
   const [sidebardata, setSidebardata] = useState({
     searchTerm: "",
@@ -46,9 +47,15 @@ const Search = () => {
     }
     const fetchListings = async () => {
       setLoading(true);
+      setShowMore(false);
       const searchQuery = urlParams.toString();
       const res = await axios.get(`/api/v1/listing/get?${searchQuery}`);
       setListings(res?.data?.listings);
+      if (res?.data?.listings?.length > 8) {
+        setShowMore(true);
+      }else{
+        setShowMore(false);
+      }
       setLoading(false);
     };
     fetchListings();
@@ -94,6 +101,18 @@ const Search = () => {
     urlParams.set("order", sidebardata.order);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
+  };
+  const onShowMoreClick = async () => {
+    const numberOfListings = listings.length;
+    const startIndex = numberOfListings;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await axios.get(`/api/v1/listing/get?${searchQuery}`);
+    if (res?.data?.listings?.length < 9) {
+      setShowMore(false);
+    }
+    setListings([...listings, ...res?.data?.listings]);
   };
   return (
     <div className="flex flex-col md:flex-row">
@@ -211,6 +230,11 @@ const Search = () => {
             listings.map((listing) => (
               <ListingCard key={listing._id} listing={listing} />
             ))}
+          {showMore && (
+            <button className="text-green-500" onClick={onShowMoreClick}>
+              Show More
+            </button>
+          )}
         </div>
       </div>
     </div>
