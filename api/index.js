@@ -42,7 +42,7 @@ app.use("/api/v1/auth", authRoute);
 //listing router
 app.use("/api/v1/listing", listingRoute);
 
-
+app.use(express.static(path.join(__dirname, "/client/dist")));
 app.get("*",(req,res)=>{
   res.sendFile(path.join(__dirname,'client', 'dist', 'index.html'));
 });
@@ -60,4 +60,3 @@ app.get("*",(req,res)=>{
 //   });
 // });
 
-app.use(express.static(path.join(__dirname, "/client/dist")));
