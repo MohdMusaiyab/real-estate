@@ -14,7 +14,7 @@ const OAuth = () => {
 
       const result = await signInWithPopup(auth, provider);
 
-      console.log(result);
+      // console.log(result);
       const res = await axios.post("/api/v1/auth/google", {
         name: result.user.displayName,
         email: result.user.email,
@@ -47,12 +47,11 @@ const OAuth = () => {
       // dispatch(signInSuccess(data));
       // navigate('/');
     } catch (error) {
-      console.log(error);
     }
   };
   return (
     <button
-      className="bg-red-500 text-white p-3 hover:opacity-90"
+      className="bg-red-500 text-white p-3 hover:opacity-90 block w-full rounded-md my-2"
       type="button"
       onClick={handleClick}
     >

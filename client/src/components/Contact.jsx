@@ -10,16 +10,14 @@ const Contact = ({ listing }) => {
       if (landlord?.data?.success) {
         setLandlord(landlord?.data?.user);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     getLandlord();
   }, []);
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
-    console.log(message);
+    // console.log(message);
   };
   return (
     landlord && (

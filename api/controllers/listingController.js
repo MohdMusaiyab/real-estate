@@ -9,7 +9,6 @@ export const createListingController = async (req, res) => {
       listing,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "Internal Server Error",
@@ -38,7 +37,6 @@ export const deleteListingController = async (req, res) => {
       message: "Listing Deleted Successfully",
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "Internal Server Error",
@@ -75,7 +73,6 @@ export const updateListingController = async (req, res) => {
       updatedListing,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "Internal Server Error",
@@ -99,7 +96,6 @@ export const getSingleListingController = async (req, res) => {
       listing,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "Internal Server Error",
@@ -147,7 +143,6 @@ export const searchListingController = async (req, res) => {
       listings,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "Internal Server Error",

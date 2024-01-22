@@ -156,7 +156,6 @@ const UpdateListing = () => {
         setFormError(res?.data?.message);
       }
     } catch (error) {
-      console.log(error);
       setFormError(error.message);
       setFormLoading(false);
       toast.error(error.message);
@@ -171,15 +170,11 @@ const UpdateListing = () => {
       const listing = await axios.get(
         `/api/v1/listing/get-listing/${listinfId}`
       );
-      console.log(listing?.data);
       if (!listing.data.success) {
-        console.log(listing.data.message);
         return;
       }
       setFormData(listing.data?.listing);
-      console.log("Form data", formData);
     } catch (error) {
-      console.log(error);
       toast.error("Error in getting listing Information");
     }
   };

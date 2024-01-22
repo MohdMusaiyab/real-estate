@@ -54,7 +54,7 @@ const CreateListing = () => {
         })
         .catch((err) => {
           setImageUploadError("Maximum Image Size is 2MB");
-          // setUploadingImages(false);
+          setUploadingImages(false);
           toast.error("Maximum Image Size is 2MB");
         });
     } else if (files.length + formData.imageUrls.length == 0) {
@@ -152,7 +152,7 @@ const CreateListing = () => {
         setFormError(res?.data?.message);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setFormError(error.message);
       setFormLoading(false);
       toast.error(error.message);
@@ -287,7 +287,9 @@ const CreateListing = () => {
               />
               <div className="flex flex-col items-center">
                 <p>Price</p>
-                <span className="text-xs">(Rs / month)</span>
+                {formData.type === "rent" && (
+                  <span className="text-xs">(Rs / month)</span>
+                )}
               </div>
             </div>
             {formData.offer && (
@@ -304,7 +306,9 @@ const CreateListing = () => {
 
                 <div className="flex flex-col items-center">
                   <p>Discounted Price</p>
-                  <span className="text-xs">(Rs / month)</span>
+                  {formData.type === "rent" && (
+                    <span className="text-xs">($ / month)</span>
+                  )}
                 </div>
               </div>
             )}
@@ -336,7 +340,7 @@ const CreateListing = () => {
             </button>
           </div>
           <button
-            disabled={formLoading  || uploadingImages }
+            disabled={formLoading || uploadingImages}
             className="p-3 bg-slate-500 text-white rounded-lg uppercase disabled:opacity-80 gap-2"
           >
             {formLoading ? "Creating Listing..." : "Create Listing"}

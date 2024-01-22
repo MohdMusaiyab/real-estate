@@ -15,7 +15,6 @@ const Header = () => {
       const searchQuery = urlParams.toString();
       navigate(`/search?${searchQuery}`);
     } catch (err) {
-      console.log(err);
     }
   };
   useEffect(() => {
@@ -30,8 +29,8 @@ const Header = () => {
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to="/">
           <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-            <span className="text-slate-500">Shamim</span>
-            <span className="text-slate-700">Estate</span>
+            <span className="text-slate-500">E-</span>
+            <span className="text-slate-700">Homes</span>
           </h1>
         </Link>
         <form

@@ -88,7 +88,7 @@ const Profile = () => {
         return;
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       dispatch(updateUserFailure(err?.response?.data?.message));
       toast.error(err?.response?.data?.message || "Update Failed");
     }
@@ -109,7 +109,7 @@ const Profile = () => {
         return;
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       dispatch(deleteUserFailure(error?.response?.data?.message));
       toast.error(error?.response?.data?.message || "Delete Failed");
     }
@@ -120,7 +120,6 @@ const Profile = () => {
       const res = await axios.get(
         `/api/v1/user/listings/${currentUser?.User?._id}`
       );
-      console.log(res?.data);
       if (res?.data?.success) {
         setUserListings(res?.data?.listings);
         return;
@@ -129,7 +128,6 @@ const Profile = () => {
         return;
       }
     } catch (error) {
-      console.log(error);
     }
   };
   const handleSignOut = async () => {
@@ -149,22 +147,19 @@ const Profile = () => {
     } catch (err) {
       dispatch(signOutUserFailure(res?.data?.message));
 
-      console.log(err);
     }
   };
-  const handleListing = async(id) => {
+  const handleListing = async (id) => {
     // cnsole.log("Delete Listing");
     try {
       const res = await axios.delete(`/api/v1/listing/delete/${id}`);
-      console.log(res?.data)
       if (res?.data?.success) {
         setUserListings(userListings.filter((listing) => listing._id !== id));
         toast.success("Delete Successful");
-      }else{
+      } else {
         toast.error(res?.data?.message || "Delete Failed");
       }
     } catch (err) {
-      console.log(err);
       toast.error(err?.response?.data?.message || "Delete Failed");
     }
   };
@@ -244,16 +239,17 @@ const Profile = () => {
         </button>
         <Link
           to={"/create-listing"}
-          className="mt-6 bg-green-700 text-white rounded-md px-4 py-2 hover:bg-green-800 align-middle w-full text-center"
+          className=" block w-full  align-middle text-center mt-6 bg-green-700 text-white rounded-md px-4 py-2 hover:bg-green-800 "
+          // className="mt-6 bg-slate-700 text-white rounded-md px-4 py-2 hover:bg-slate-800 align-middle w-full"
         >
           Create Listing
         </Link>
       </form>
       <div className="flex mt-2 justify-between ">
-        <span className="text-red-600" onClick={handleDeleteUser}>
+        <span className="text-red-600 hover:cursor-pointer" onClick={handleDeleteUser}>
           Delete Account
         </span>
-        <span className="text-red-600" onClick={handleSignOut}>
+        <span className="text-red-600 hover:cursor-pointer" onClick={handleSignOut}>
           Sign Out
         </span>
       </div>
@@ -293,8 +289,8 @@ const Profile = () => {
                 >
                   Delete
                 </button>
-                <Link to={ `/update-listing/${listing._id}`}>
-                <button className="text-green-700">Update</button>
+                <Link to={`/update-listing/${listing._id}`}>
+                  <button className="text-green-700">Update</button>
                 </Link>
               </div>
             </div>

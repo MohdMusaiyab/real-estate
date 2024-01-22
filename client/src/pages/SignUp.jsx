@@ -19,7 +19,6 @@ const SignUp = () => {
         email,
         password,
       });
-      console.log(res?.data);
       if (res?.data?.success) {
         toast.success("Sign Up Successful");
         // alert("Sign Up Successful");
@@ -32,7 +31,6 @@ const SignUp = () => {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
       // alert("Something went wrong");
       toast.error("Something went wrong")
       setLoading(false);

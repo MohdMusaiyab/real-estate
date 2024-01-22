@@ -34,7 +34,6 @@ export const signupController = async (req, res, next) => {
   } catch (error) {
     // next(error);
     // Using the above for code Reusability
-    console.log(error.message);
     res.status(500).send({
       success: false,
       status: "failed",
@@ -87,7 +86,6 @@ export const signInController = async (req, res) => {
       User: cleanUser,
     });
   } catch (error) {
-    console.log(error.message);
     res.status(500).send({
       success: false,
       status: "failed",
@@ -134,7 +132,6 @@ export const googleController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error.message);
     res.status(500).send({
       success: false,
       status: "failed",
@@ -147,11 +144,10 @@ export const signOutController = async (req, res) => {
   try {
     res.clearCookie("access_token");
     return res.status(200).send({
-      success:true,
-      message:"Logged Out Successfully"
-    })
+      success: true,
+      message: "Logged Out Successfully",
+    });
   } catch (error) {
-    console.log(error.message);
     res.status(500).send({
       success: false,
       status: "failed",

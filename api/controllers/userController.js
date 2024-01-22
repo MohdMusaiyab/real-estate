@@ -28,7 +28,6 @@ export const updateController = async (req, res) => {
       },
       { new: true }
     );
-    // console.log(updatedUser._doc);
     const { password, ...rest } = updatedUser._doc;
     // const rest={...updatedUser._doc};
     // delete rest.password;
@@ -38,7 +37,6 @@ export const updateController = async (req, res) => {
       User: rest,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       success: false,
       message: "Internal Server Error",
@@ -68,7 +66,6 @@ export const deleteController = async (req, res) => {
       message: "User Deleted Successfully",
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "Internal Server Error",
@@ -87,7 +84,6 @@ export const userListingController = async (req, res) => {
         listings,
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).send({
         success: false,
         message: "Internal Server Error",
@@ -118,7 +114,6 @@ export const getUserController = async (req, res) => {
       user: rest,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "Internal Server Error",
