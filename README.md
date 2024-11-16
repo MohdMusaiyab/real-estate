@@ -97,5 +97,3 @@ Before running this project locally, ensure you have:
 The application is currently deployed at [https://e-estate.onrender.com/](https://e-estate.onrender.com/)
 
 ---
-
-Made with ❤️ by [Your Name]
