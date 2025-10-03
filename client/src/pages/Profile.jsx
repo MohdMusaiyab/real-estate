@@ -245,14 +245,22 @@ const Profile = () => {
           Create Listing
         </Link>
       </form>
-      <div className="flex mt-2 justify-between ">
-        <span className="text-red-600 hover:cursor-pointer" onClick={handleDeleteUser}>
-          Delete Account
-        </span>
-        <span className="text-red-600 hover:cursor-pointer" onClick={handleSignOut}>
-          Sign Out
-        </span>
-      </div>
+     <div className="flex mt-2 justify-between ">
+  <span
+    className={`text-red-600 hover:cursor-pointer ${loading ? "opacity-50 pointer-events-none" : ""}`}
+    onClick={handleDeleteUser}
+  >
+    {loading ? "Deleting..." : "Delete Account"}
+  </span>
+
+  <span
+    className={`text-red-600 hover:cursor-pointer ${loading ? "opacity-50 pointer-events-none" : ""}`}
+    onClick={handleSignOut}
+  >
+    {loading ? "Signing Out..." : "Sign Out"}
+  </span>
+</div>
+
       <button
         onClick={handleUserListing}
         className="w-full text-green-700 font-semibold"
